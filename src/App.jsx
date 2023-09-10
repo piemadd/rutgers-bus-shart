@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import routes from "./lines";
 const endpoint = "https://store.transitstat.us/passio_go/rutgers/trains";
+import banner from "./banner.svg";
+import LinesSection from "./linesSection";
 
 const weekDays = ["U", "M", "T", "W", "R", "F", "S"];
 
 const App = () => {
   const [destinationHeadways, setDestinationHeadways] = useState({});
-  const [runNumbers, setRunNumbers] = useState([]);
-  const [buses, setBuses] = useState([]);
   const [lines, setLines] = useState([]);
+  const [busesInService, setBusesInService] = useState(0);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
 
@@ -52,6 +53,7 @@ const App = () => {
         };
       });
 
+      let numInService = 0;
       Object.keys(data).forEach((busNumber) => {
         const bus = data[busNumber];
 
@@ -71,7 +73,9 @@ const App = () => {
         });
 
         newLines[bus.lineCode].actuallyInService++;
+        numInService++;
       });
+      setBusesInService(numInService);
 
       //calculate headways
       Object.keys(newLines).forEach((lineKey) => {
@@ -118,6 +122,11 @@ const App = () => {
           .sort((a, b) => a - b);
         const middle = Math.ceil(headways.length / 2);
 
+        if (isNaN(headways[middle])) {
+          newLines[lineKey].medianHeadway = 0;
+          return;
+        }
+
         newLines[lineKey].medianHeadway = headways[middle];
       });
 
@@ -130,6 +139,11 @@ const App = () => {
           .sort((a, b) => a - b);
         const sum = headways.reduce((a, b) => a + b, 0);
         const avg = sum / headways.length;
+
+        if (isNaN(avg)) {
+          newLines[lineKey].meanHeadway = 0;
+          return;
+        }
 
         newLines[lineKey].meanHeadway = Math.round(avg);
       });
@@ -167,12 +181,10 @@ const App = () => {
         newLines[lineKey].numBunched = mostBunchedStopCount;
       });
 
-      console.log(newLines);
-
+      //console.log(newLines);
       console.log("Updated Data");
 
-      setLines(newLines);
-
+      setLines(Object.values(newLines));
       setLastUpdated(new Date());
       setLoading(false);
     };
@@ -181,74 +193,112 @@ const App = () => {
 
     setInterval(() => {
       updateData();
-    }, 30000);
+    }, 15000);
   }, []);
 
   return (
-    <>
-      <h1>CTA System Headways</h1>
-      <p>
-        v0.0.1 | Made by <a href='https://piemadd.com/'>Piero</a> in
-        collaboration with <a href='https://twitter.com/jeremyzorek'>Jeremy</a>{" "}
-        and <a href='https://www.youtube.com/@alexwithclipboard'>Alex</a>
-      </p>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <p>
-            Last Updated:{" "}
-            {lastUpdated.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </p>
-          <p
+    <div
+      style={{
+        margin: "16px",
+        width: "calc(100% - 32px)",
+        minHeight: "calc(100vh - 32px)",
+      }}
+    >
+      <div
+        style={{
+          textAlign: "center",
+        }}
+      >
+        <img
+          src={banner}
+          alt='RUScrewed Logo'
+          style={{
+            width: "100%",
+            maxWidth: "500px",
+          }}
+        />
+        <h1
+          style={{
+            color: "#cf102d",
+          }}
+        >
+          RUSCREWED.ORG
+        </h1>
+        <p>
+          &copy;2023 RUScrewed |{" "}
+          <a
             style={{
-              textAlign: "center",
-              marginBottom: "8px",
+              color: "#cf102d",
             }}
+            href='mailto:contact@ruscrewed.org'
           >
-            {runNumbers.length} trains are currently running
-          </p>
-          <main>
-            <section className='headways'>
-              {Object.values(destinationHeadways).map((destination) => {
-                return (
-                  <div
-                    key={`${destination.line}-${destination.stationKey}`}
-                    style={{
-                      backgroundColor: lines[destination.line].color,
-                      color: lines[destination.line].textColor,
-                    }}
-                  >
-                    <p>{lines[destination.line].name} Line towards</p>
-                    <h2>{destination.stationKey}</h2>
-                    {destination.numOfTrains === 1 ? (
-                      <p>Only train terminates</p>
-                    ) : null}
-                    <p
-                      style={{
-                        fontSize: "1.5rem",
-                      }}
-                    >
-                      {destination.headways}
-                    </p>
-                    {destination.numOfTrains === 1 ? null : (
-                      <p>
-                        {destination.numOfTrains}{" "}
-                        {destination.numOfTrains === 1 ? "train" : "trains"}{" "}
-                        running
-                      </p>
-                    )}
-                  </div>
-                );
+            Email Us
+          </a>
+        </p>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            <p>
+              Last Updated:{" "}
+              {lastUpdated.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
               })}
-            </section>
-          </main>
-        </>
+            </p>
+            <p
+              style={{
+                textAlign: "center",
+                marginBottom: "8px",
+              }}
+            >
+              {busesInService} buses in service
+            </p>
+          </>
+        )}
+        <p
+          style={{
+            margin: "16px",
+          }}
+        >
+          <a
+            style={{
+              backgroundColor: "#cf102d",
+              color: "white",
+              padding: "8px",
+            }}
+            href='https://transitstat.us/rutgers'
+            target='_blank'
+          >
+            Bus Tracker
+          </a>
+        </p>
+        <p
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <span>Unbunch our buses!</span>
+          <span>🚌 ↔ 🚌 ↔ 🚌</span>
+        </p>
+      </div>
+      {loading ? null : (
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "center",
+            marginTop: "16px",
+          }}
+        >
+          <LinesSection
+            lines={lines.sort((a, b) => a.name.localeCompare(b.name))}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

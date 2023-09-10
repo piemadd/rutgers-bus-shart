@@ -2,7 +2,7 @@ const routes = {
   31678: {
     name: "A",
     color: "ff00ff",
-    textColor: "ffffff",
+    textColor: "000000",
     preferred: '10052',
     timeToComplete: 30,
     schedule: {
@@ -330,20 +330,8 @@ const routes = {
           freq: 12,
         },
       ],
-      S: [
-        {
-          min: "0730",
-          max: "2154",
-          freq: 12,
-        },
-      ],
-      U: [
-        {
-          min: "0730",
-          max: "2154",
-          freq: 12,
-        },
-      ],
+      S: [],
+      U: [],
     },
   },
   31970: {
@@ -1007,7 +995,7 @@ const routes = {
   36877: {
     name: "REXL",
     color: "66b2ff",
-    textColor: "ffffff",
+    textColor: "000000",
     preferred: '10029',
     timeToComplete: 24,
     schedule: {
