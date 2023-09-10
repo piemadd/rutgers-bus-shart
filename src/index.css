@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Roboto", sans-serif;
+  background-color: #111;
+  color: #fff;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main {
+  width: calc(100% - 16px);
+  max-width: 1000px;
+  padding: 0 8px 8px 8px;
+}
