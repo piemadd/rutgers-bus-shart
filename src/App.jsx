@@ -42,6 +42,7 @@ const App = () => {
           color: route.color,
           textColor: route.textColor,
           schFreq: currentSchedule ? currentSchedule.freq : 0,
+          tripLength: route.timeToComplete,
           etasByStop: {},
           headwaysByStop: {},
           highestHeadway: 0,
@@ -91,7 +92,7 @@ const App = () => {
           //if more than 0 buses are coming, add the line runtime as the last eta
           if (line.etasByStop[stopKey].length > 0) {
             const lowestETA = Math.min(...line.etasByStop[stopKey]);
-            line.etasByStop[stopKey].push(lowestETA + line.schFreq * 60 * 1000);
+            line.etasByStop[stopKey].push(lowestETA + line.tripLength * 60 * 1000);
           }
 
           const stop = line.etasByStop[stopKey];
