@@ -64,6 +64,10 @@ const App = () => {
           return;
         }
 
+        if (bus.predictions.length === 0) {
+          return;
+        }
+
         bus.predictions.forEach((stop) => {
           if (!newLines[bus.lineCode]["etasByStop"][stop.stationID]) {
             newLines[bus.lineCode]["etasByStop"][stop.stationID] = [];
@@ -189,7 +193,7 @@ const App = () => {
         newLines[lineKey].numBunched = mostBunchedStopCount;
       });
 
-      //console.log(newLines);
+      console.log(newLines);
       console.log("Updated Data");
 
       setLines(Object.values(newLines));
