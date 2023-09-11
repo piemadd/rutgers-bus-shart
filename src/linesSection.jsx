@@ -10,7 +10,7 @@ const LinesSection = ({ lines }) => (
     }}
   >
     {lines.map((line) => {
-      console.log(line);
+      //console.log(line);
 
       return (
         <div

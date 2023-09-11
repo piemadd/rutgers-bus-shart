@@ -1,5 +1,5 @@
 const routes = {
-  31678: {
+  43430: {
     name: "A",
     color: "ff00ff",
     textColor: "000000",
@@ -75,7 +75,7 @@ const routes = {
       U: [],
     },
   },
-  31961: {
+  43973: {
     name: "B",
     color: "ffd700",
     textColor: "000000",
@@ -216,7 +216,7 @@ const routes = {
       U: [],
     },
   },
-  31650: {
+  43397: {
     name: "B-He",
     color: "daa520",
     textColor: "ffffff",
@@ -288,7 +288,7 @@ const routes = {
       U: [],
     },
   },
-  41540: {
+  4067: {
     name: "C",
     color: "00ffff",
     textColor: "000000",
@@ -334,7 +334,7 @@ const routes = {
       U: [],
     },
   },
-  31970: {
+  43431: {
     name: "EE",
     color: "ff8000",
     textColor: "ffffff",
@@ -506,7 +506,7 @@ const routes = {
       U: [],
     },
   },
-  31651: {
+  43974: {
     name: "F",
     color: "ff0000",
     textColor: "ffffff",
@@ -552,7 +552,7 @@ const routes = {
       U: [],
     }
   },
-  36873: {
+  43440: {
     name: "H",
     color: "0000ff",
     textColor: "ffffff",
@@ -724,7 +724,7 @@ const routes = {
       U: [],
     }
   },
-  36874: {
+  43398: {
     name: "LX",
     color: "cc99ff",
     textColor: "000000",
@@ -921,7 +921,7 @@ const routes = {
       U: [],
     }
   },
-  36875: {
+  43711: {
     name: "REXB",
     color: "660033",
     textColor: "ffffff",
@@ -992,7 +992,7 @@ const routes = {
       U: [],
     },
   },
-  36877: {
+  43441: {
     name: "REXL",
     color: "66b2ff",
     textColor: "000000",

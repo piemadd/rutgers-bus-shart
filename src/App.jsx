@@ -34,6 +34,8 @@ const App = () => {
             Number(schedule.max) > timeStamp
         )[0];
 
+        console.log(currentSchedule);
+
         newLines[routeKey] = {
           key: routeKey,
           name: route.name,
@@ -82,6 +84,12 @@ const App = () => {
         const line = newLines[lineKey];
 
         Object.keys(line.etasByStop).forEach((stopKey) => {
+          //if more than 0 buses are coming, add the line runtime as the last eta
+          if (line.etasByStop[stopKey].length > 0) {
+            const lowestETA = Math.min(...line.etasByStop[stopKey]);
+            line.etasByStop[stopKey].push(lowestETA + line.schFreq * 60 * 1000);
+          }
+
           const stop = line.etasByStop[stopKey];
 
           let headways = [];
