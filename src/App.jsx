@@ -416,6 +416,35 @@ const App = () => {
           />
         </div>
       )}
+      <div
+        style={{
+          width: "100%",
+          textAlign: "center",
+          marginTop: "16px",
+          color: "#ffffff",
+        }}
+      >
+        <p>
+          Made by{" "}
+          <a
+            href='https://piemadd.com/'
+            style={{ color: "#ffffff" }}
+            target='_blank'
+          >
+            Piero
+          </a>{" "}
+          and Friends
+        </p>
+        <p>
+          <a
+            href='https://transitstat.us/privacy'
+            style={{ color: "#ffffff" }}
+            target='_blank'
+          >
+            Privacy Policy
+          </a>
+        </p>
+      </div>
     </div>
   );
 };
