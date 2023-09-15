@@ -54,10 +54,7 @@ const App = () => {
         const route = routes[routeKey];
 
         const todaySchedule = route.schedule[dayOfWeek];
-        const currentSchedule = getCurrentSchedule(
-          route,
-          `${now.getHours()}${now.getMinutes()}`
-        );
+        const currentSchedule = getCurrentSchedule(route, timeStamp);
         //const currentSchedule = getCurrentSchedule(route, '2046');
 
         newLines[routeKey] = {
@@ -76,6 +73,7 @@ const App = () => {
             ? Math.ceil(route.timeToComplete / currentSchedule.freq)
             : 0,
           actuallyInService: 0,
+          noETAInService: 0,
           numBunched: 0,
         };
       });
@@ -89,8 +87,18 @@ const App = () => {
           return;
         }
 
-        if (bus.predictions.length === 0) {
+        if (
+          bus.lat > 40.516626 - 0.001 &&
+          bus.lat < 40.516626 + 0.001 &&
+          bus.lon > -74.430652 - 0.001 &&
+          bus.lon < -74.430652 + 0.001
+        ) {
+          console.log("bus is in depot");
           return;
+        }
+
+        if (bus.predictions.length === 0) {
+          newLines[bus.lineCode].noETAInService += 1;
         }
 
         bus.predictions.forEach((stop) => {
@@ -321,6 +329,77 @@ const App = () => {
           <span>Unbunch our buses!</span>
           <span>🚌 ↔ 🚌 ↔ 🚌</span>
         </p>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "8px",
+          }}
+        >
+          <details
+            style={{
+              textAlign: "left",
+              width: "100%",
+              maxWidth: "600px",
+            }}
+          >
+            <summary>Manifesto</summary>
+            <div
+              style={{
+                width: "100%",
+              }}
+            >
+              <p>
+                Across the world, buses are a tried and true way to move lots of
+                people quickly and conveniently. But at Rutgers, the campus
+                buses are stressful, slow and brutally unreliable. Traffic, the
+                class schedule and a lack of funds all play a part. But there's
+                one problem entirely of Rutgers' own creation: bunching.
+              </p>
+              <br />
+              <p>
+                Most routes are scheduled to run every 6 minutes or less during
+                classes. Rutgers has enough buses and drivers to make that
+                happen, but those buses usually end up packed into a conga line,
+                leaving gaps of up to half an hour. And when that first bus does
+                show up, good luck getting on.
+              </p>
+              <br />
+              <p>
+                Most transit systems prevent bunching using schedules (drivers
+                wait if they are running ahead) or a system called "active
+                headway management" (drivers wait if they are too close to the
+                bus in front). But for years, Rutgers and Transdev (the contract
+                operator) have refused to implement either of these systems to
+                address bunching. No more.
+              </p>
+              <br />
+              <p>
+                We demand that Rutgers stops ignoring this critical problem and
+                implements a system to address bunching this year.
+              </p>
+              <br />
+              <p>
+                <b>
+                  <a
+                    href='mailto:holloway@rutgers.edu'
+                    target='_blank'
+                    style={{
+                      color: "#ff0000",
+                    }}
+                  >
+                    Click here
+                  </a>{" "}
+                  to contact President Holloway and ask him to{" "}
+                  <u>implement active headway management</u> and unbunch your
+                  bus.
+                </b>{" "}
+                (Please be polite and to the point. He's a busy man.)
+              </p>
+            </div>
+          </details>
+        </div>
       </div>
       {loading ? null : (
         <div

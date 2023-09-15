@@ -557,7 +557,7 @@ const routes = {
     color: "0000ff",
     textColor: "ffffff",
     preferred: '10035',
-    timeToComplete: 60,
+    timeToComplete: 30,
     schedule: {
       M: [
         {

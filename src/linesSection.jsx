@@ -26,15 +26,26 @@ const LinesSection = ({ lines }) => (
             gap: "4px",
           }}
         >
-          <h2
-            style={{
-              fontSize: "36px",
-              textAlign: "left",
-              fontWeight: "700",
-            }}
-          >
-            {line.name}
-          </h2>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <h2
+              style={{
+                fontSize: "36px",
+                textAlign: "left",
+                fontWeight: "700",
+              }}
+            >
+              {line.name}
+            </h2>
+            <img
+              src={`/icons/${line.textColor}.gif`}
+              style={{
+                height: "36px",
+              }}
+            ></img>
+          </div>
           {line.scheduledInService === 0 && line.actuallyInService === 0 ? (
             <p>No service scheduled or operating.</p>
           ) : (
@@ -74,6 +85,9 @@ const LinesSection = ({ lines }) => (
                 <b>{line.actuallyInService}</b> of{" "}
                 <b>{line.scheduledInService}</b> scheduled buses are in service.
               </p>
+              {line.noETAInService > 0 ? (
+                <p>{line.noETAInService} buses have no ETAs</p>
+              ) : null}
               <p>
                 <b>{line.numBunched}</b> of <b>{line.actuallyInService}</b>{" "}
                 running buses are bunched.
