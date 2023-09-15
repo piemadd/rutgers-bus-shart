@@ -4,7 +4,24 @@ const endpoint = "https://store.transitstat.us/passio_go/rutgers/trains";
 import banner from "./banner.svg";
 import LinesSection from "./linesSection";
 
-const weekDays = ["U", "M", "T", "W", "R", "F", "S"];
+const weekDays = ["U", "M", "T", "W", "TH", "F", "S"];
+
+const getCurrentSchedule = (route, timeStamp) => {
+  const dayOfWeek = weekDays[new Date().getDay()];
+  //console.log("day of week", dayOfWeek);
+
+  console.log(dayOfWeek)
+
+  const todaySchedule = route.schedule[dayOfWeek];
+  const currentSchedule = todaySchedule.filter(
+    (schedule) =>
+      Number(schedule.min) <= timeStamp && Number(schedule.max) > timeStamp
+  )[0];
+
+  console.log(currentSchedule);
+
+  return currentSchedule;
+};
 
 const App = () => {
   const [destinationHeadways, setDestinationHeadways] = useState({});
@@ -19,22 +36,19 @@ const App = () => {
       const data = await response.json();
 
       const dayOfWeek = weekDays[new Date().getDay()];
+      //console.log("day of week", dayOfWeek);
 
       const now = new Date();
       const timeStamp = Number(`${now.getHours()}${now.getMinutes()}`);
+      //console.log(timeStamp);
 
       let newLines = {};
       Object.keys(routes).forEach((routeKey) => {
         const route = routes[routeKey];
 
         const todaySchedule = route.schedule[dayOfWeek];
-        const currentSchedule = todaySchedule.filter(
-          (schedule) =>
-            Number(schedule.min) <= timeStamp &&
-            Number(schedule.max) > timeStamp
-        )[0];
-
-        console.log(currentSchedule);
+        const currentSchedule = getCurrentSchedule(route, `${now.getHours()}${now.getMinutes()}`);
+        //const currentSchedule = getCurrentSchedule(route, '2046');
 
         newLines[routeKey] = {
           key: routeKey,
@@ -92,7 +106,9 @@ const App = () => {
           //if more than 0 buses are coming, add the line runtime as the last eta
           if (line.etasByStop[stopKey].length > 0) {
             const lowestETA = Math.min(...line.etasByStop[stopKey]);
-            line.etasByStop[stopKey].push(lowestETA + line.tripLength * 60 * 1000);
+            line.etasByStop[stopKey].push(
+              lowestETA + line.tripLength * 60 * 1000
+            );
           }
 
           const stop = line.etasByStop[stopKey];
@@ -194,8 +210,8 @@ const App = () => {
         newLines[lineKey].numBunched = mostBunchedStopCount;
       });
 
-      console.log(newLines);
-      console.log("Updated Data");
+      //console.log(newLines);
+      //console.log("Updated Data");
 
       setLines(Object.values(newLines));
       setLastUpdated(new Date());
