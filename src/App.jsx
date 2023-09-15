@@ -10,15 +10,17 @@ const getCurrentSchedule = (route, timeStamp) => {
   const dayOfWeek = weekDays[new Date().getDay()];
   //console.log("day of week", dayOfWeek);
 
-  console.log(dayOfWeek)
-
   const todaySchedule = route.schedule[dayOfWeek];
   const currentSchedule = todaySchedule.filter(
     (schedule) =>
       Number(schedule.min) <= timeStamp && Number(schedule.max) > timeStamp
   )[0];
 
-  console.log(currentSchedule);
+  if (route.name === "A") {
+    console.log("today schedule", todaySchedule);
+    console.log("current schedule", currentSchedule);
+    console.log("timeStamp", timeStamp);
+  }
 
   return currentSchedule;
 };
@@ -39,7 +41,12 @@ const App = () => {
       //console.log("day of week", dayOfWeek);
 
       const now = new Date();
-      const timeStamp = Number(`${now.getHours()}${now.getMinutes()}`);
+      const timeStamp = Number(
+        `${now.getHours().toString().padStart(2, "0")}${now
+          .getMinutes()
+          .toString()
+          .padStart(2, "0")}`
+      );
       //console.log(timeStamp);
 
       let newLines = {};
@@ -47,7 +54,10 @@ const App = () => {
         const route = routes[routeKey];
 
         const todaySchedule = route.schedule[dayOfWeek];
-        const currentSchedule = getCurrentSchedule(route, `${now.getHours()}${now.getMinutes()}`);
+        const currentSchedule = getCurrentSchedule(
+          route,
+          `${now.getHours()}${now.getMinutes()}`
+        );
         //const currentSchedule = getCurrentSchedule(route, '2046');
 
         newLines[routeKey] = {
