@@ -26,10 +26,12 @@ const LinesSection = ({ lines }) => (
             gap: "4px",
           }}
         >
-          <div style={{
-            display: 'flex',
-            alignItems: 'center'
-          }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <h2
               style={{
                 fontSize: "36px",
@@ -39,12 +41,15 @@ const LinesSection = ({ lines }) => (
             >
               {line.name}
             </h2>
-            <img
-              src={`/icons/${line.textColor}.gif`}
-              style={{
-                height: "36px",
-              }}
-            ></img>
+            {line.scheduledInService === 0 &&
+            line.actuallyInService === 0 ? null : (
+              <img
+                src={`/icons/${line.textColor}.gif`}
+                style={{
+                  height: "36px",
+                }}
+              ></img>
+            )}
           </div>
           {line.scheduledInService === 0 && line.actuallyInService === 0 ? (
             <p>No service scheduled or operating.</p>
