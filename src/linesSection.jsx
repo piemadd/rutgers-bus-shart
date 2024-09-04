@@ -65,7 +65,7 @@ const LinesSection = ({ lines }) => (
                         fontWeight: "700",
                       }}
                     >
-                      {Math.floor(line.highestHeadway)}
+                      {Math.round(line.highestHeadway)}
                     </span>{" "}
                     minute
                   </p>
@@ -79,13 +79,13 @@ const LinesSection = ({ lines }) => (
               )}
               <br />
               <p>
-                Average headway: <b>{line.meanHeadway}</b> min
+                Average headway: <b>{Math.round(line.meanHeadway)}</b> min
               </p>
               <p>
-                Median headway: <b>{line.medianHeadway}</b> min
+                Median headway: <b>{Math.round(line.medianHeadway)}</b> min
               </p>
               <p>
-                Scheduled headway: <b>{line.schFreq}</b> min
+                Scheduled headway: <b>{Math.round(line.schFreq)}</b> min
               </p>
               <div
                 style={{
