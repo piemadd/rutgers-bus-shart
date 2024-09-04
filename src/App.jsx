@@ -272,7 +272,7 @@ const App = () => {
           RUSCREWED.ORG
         </h1>
         <p>
-          &copy;2023 RUScrewed |{" "}
+          &copy;{new Date().getFullYear()} RUScrewed |{" "}
           <a
             style={{
               color: "#cf102d",
