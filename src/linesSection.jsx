@@ -55,19 +55,28 @@ const LinesSection = ({ lines }) => (
             <p>No service scheduled or operating.</p>
           ) : (
             <>
-              <p>There is currently a</p>
-              <p>
-                <span
-                  style={{
-                    fontSize: "48px",
-                    fontWeight: "700",
-                  }}
-                >
-                  {line.highestHeadway}
-                </span>{" "}
-                minute
-              </p>
-              <p>gap between buses.</p>
+              {line.actuallyInService > 0 ? (
+                <>
+                  <p>There is currently a</p>
+                  <p>
+                    <span
+                      style={{
+                        fontSize: "48px",
+                        fontWeight: "700",
+                      }}
+                    >
+                      {Math.floor(line.highestHeadway)}
+                    </span>{" "}
+                    minute
+                  </p>
+                  <p>gap between buses.</p>
+                </>
+              ) : (
+                <>
+                  <p>No buses are running,</p>
+                  <p>but there should be :c</p>
+                </>
+              )}
               <br />
               <p>
                 Average headway: <b>{line.meanHeadway}</b> min
